@@ -33,7 +33,23 @@ options = [key for key in list_of_hashes[0].keys()]
 # We don't want to have all of the options available to be chosen.
 # You want to limit the amount of information available to the user to see.
 # The user does not need to see everything.
+lim_opt_set = ["("+str(option+1)+")"+" "+options[option] for option in range(len(options))]
+
+def conv_input(val):
+    # Convert String to list of selections
+    ret_lst=[]
+    for selection in val:
+        ret_lst.append(selection)
+
+
+def choose_options(lim_opt_set, sel, val):
+    #if passed a "sel, lim_opt_set string" == del 1,3,5, select those options but delete the others
+    #1,3,5,9 --> [1,3,5,9]
+    for selection in val:
+        if selection !=
+
 limit_option = options[2:6:]
+
 
 # Print the Outputs
 print("The options are: \n==========================")
