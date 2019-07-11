@@ -37,17 +37,30 @@ lim_opt_set = ["("+str(option+1)+")"+" "+options[option] for option in range(len
 
 def conv_input(val):
     # Convert String to list of selections
+    temp_str = ''
     ret_lst=[]
-    for selection in val:
-        ret_lst.append(selection)
+    for i in range(len(val)):
+        if (val[-1]) != '.':
+            raise Exception("Please end your comma separated list with a period.")
+        if (val[i]).isalpha():
+            raise Exception("Numbers only please.")
+        if val[i] != ',':
+            temp_str+=selection
+        elif val[i] == ',': #if it is equal to a comma, append the numbers
+            if 1 <= int(temp_str) and int(temp_str) <= (len(options)-1): #if the value the user entered is not in the accepted range raise an exception
+                ret_lst.append(int(temp_str))
+                temp_str = ''
+            else:
+                raise IndexError
+    return ret_lst
 
 
-def choose_options(lim_opt_set, sel, val):
+def choose_options(lim_opt_set, sel, val_set):
     #if passed a "sel, lim_opt_set string" == del 1,3,5, select those options but delete the others
     #1,3,5,9 --> [1,3,5,9]
-    for selection in val:
-        if selection !=
-
+    # delete in logarithmic time ..
+    for i in len(val_set):
+        if v
 limit_option = options[2:6:]
 
 
