@@ -38,7 +38,8 @@ lim_opt_set = copy.deepcopy(lim_opt_set[1::])
 print(lim_opt_set)
 
 def conv_input(val):
-    # Convert String to list of selections
+    # Convert string to list of selections using a comma separated list
+    # corresponding to the numbers.
     val+=','
     temp_str,ret_lst = '',[]
     for i in range(len(val)):
@@ -55,22 +56,19 @@ def conv_input(val):
     return ret_lst
 
 def choose_options(lim_opt_set,val_set):
-    #if passed a "sel, lim_opt_set string" == del 1,3,5, select those options but delete the others
-    #1,3,5,9 --> [1,3,5,9]
-    # delete in logarithmic time ..
-    placement,val_set_len,val_set = 0, len(val_set), conv_input(val_set)
+    # Select only the options that were indicated in the comma separated
+    # list.
+    placement,val_set = 0, conv_input(val_set)
+    val_set_len = len(val_set)
     for i in range(len(val_set)):
         sel_index = (int(val_set[i])-1)
         if sel_index == i:
-            pass
+            placement+=1
         else: #if sel index != to the value
-            lim_opt_set.pop(i)
-    for i in range(len(lim_opt_set)-val_set_len):
+            lim_opt_set[placement],lim_opt_set[sel_index] = lim_opt_set[sel_index],lim_opt_set[placement]
+    for i in range((len(lim_opt_set))-val_set_len):
         lim_opt_set.pop()
     return lim_opt_set
-
-print(conv_input('1,2,3'))
-print(choose_options(lim_opt_set,'1,2,4'))
 
 limit_option = options[2:6:]
 
