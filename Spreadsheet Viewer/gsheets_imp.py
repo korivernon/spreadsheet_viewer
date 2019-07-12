@@ -1,4 +1,5 @@
 import gspread
+import copy
 from oauth2client.service_account import ServiceAccountCredentials
 import os
 '''
@@ -29,11 +30,12 @@ list_of_hashes = sheet.get_all_records()
 # Initialize the count to 0 so that we can output them as choices.
 # Better interface for testing in Python IDLE.
 options = [key for key in list_of_hashes[0].keys()]
-
 # We don't want to have all of the options available to be chosen.
 # You want to limit the amount of information available to the user to see.
 # The user does not need to see everything.
-lim_opt_set = ["("+str(option+1)+")"+" "+options[option] for option in range(len(options))]
+lim_opt_set = ["("+str(option)+")"+" "+options[option] for option in range(len(options))]
+lim_opt_set = copy.deepcopy(lim_opt_set[1::])
+print(lim_opt_set)
 
 def conv_input(val):
     # Convert String to list of selections
@@ -47,7 +49,6 @@ def conv_input(val):
         elif val[i] == ',': #if it is equal to a comma, append the numbers
             if 1 <= int(temp_str) and int(temp_str) <= (len(options)-1): #if the value the user entered is not in the accepted range raise an exception
                 ret_lst.append(int(temp_str))
-                print(temp_str)
                 temp_str = ''
             else:
                 raise IndexError
@@ -57,20 +58,19 @@ def choose_options(lim_opt_set,val_set):
     #if passed a "sel, lim_opt_set string" == del 1,3,5, select those options but delete the others
     #1,3,5,9 --> [1,3,5,9]
     # delete in logarithmic time ..
-    placement,val_set_len = 0, len(val_set)
+    placement,val_set_len,val_set = 0, len(val_set), conv_input(val_set)
     for i in range(len(val_set)):
         sel_index = (int(val_set[i])-1)
         if sel_index == i:
-            lim_opt_set[placement],lim_opt_set[i] = lim_opt_set[i],lim_opt_set[placement]
-            placement +=1
-        else:
             pass
+        else: #if sel index != to the value
+            lim_opt_set.pop(i)
     for i in range(len(lim_opt_set)-val_set_len):
         lim_opt_set.pop()
     return lim_opt_set
 
 print(conv_input('1,2,3'))
-print(choose_options(lim_opt_set,conv_input('1,2,3')))
+print(choose_options(lim_opt_set,'1,2,4'))
 
 limit_option = options[2:6:]
 
