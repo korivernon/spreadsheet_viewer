@@ -64,7 +64,7 @@ def choose_options(lim_opt_set,val_set):
         sel_index = (int(val_set[i])-1)
         if sel_index == i:
             placement+=1
-        else: #if sel index != to the value
+        else: # If sel index != to the value
             lim_opt_set[placement],lim_opt_set[sel_index] = lim_opt_set[sel_index],lim_opt_set[placement]
     for i in range((len(lim_opt_set))-val_set_len):
         lim_opt_set.pop()
