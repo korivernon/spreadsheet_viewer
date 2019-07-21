@@ -2,6 +2,7 @@ import gspread
 import copy
 from oauth2client.service_account import ServiceAccountCredentials
 import os
+from test_sheets import search
 '''
 Task 1:
 Here I want to populate populate options to relevantly search a database
@@ -37,7 +38,6 @@ lim_opt_set = ["("+str(option)+")"+" "+options[option] for option in range(len(o
 lim_opt_set = copy.deepcopy(lim_opt_set[1::])
 lim_opt_set_ref = copy.deepcopy(lim_opt_set[1::])
 lim_opt_set_len = len(lim_opt_set)
-print(lim_opt_set)
 
 def conv_input(val):
     # Convert string to list of selections using a comma separated list
@@ -73,42 +73,6 @@ def choose_options(lim_opt_set,val_set):
         lim_opt_set.pop()
     return lim_opt_set
 
-def select(lim_opt_set_elem):
-    # We want to selet the element at that place so we can use it when referencing. 
-    for i in range(lim_opt_set_len):
-        if lim_opt_set[i] == lim_opt_set_elem-1:
-            return lim_opt_set[i]
-"""
-Choose Options and Testing
-"""
-def test_options():
-    print("Choose Options Test")
-    print(lim_opt_set)
-    val_set = input("Please select options in a comma separated list: ")
-    print(choose_options(lim_opt_set,val_set))
-test_options()
-
-limit_option = options[2:6:]
-# Drop down menu functionality
-
-# Print the Outputs
-print("The options are: \n==========================")
-option_storage = ["("+str(option+1)+")"+" "+limit_option[option] for option in range(len(limit_option))]
-# print(option_storage)
-
-# Loop Over Limit Option and print the results.
-for option in option_storage:
-    # We only want the Business Name, Products, and Service Offered.
-    print("   -",option)
-print("==========================")
-    # Output for the options.
-
-search = input("Database Query (Select Number): ")
-RESULT = limit_option[int(search)-1]
-# search = 'Products or Services Offered'
-
-print(limit_option[1])
-print(search,"Results")
 db_elements_num = len(list_of_hashes)
 
 def listify(column):
@@ -142,15 +106,16 @@ def rank_search():
     # Use sorting algorithm to rank the search as efficiently as possible
     pass
 
-for _ in range(db_elements_num):
-    #fix if statements
-    if (RESULT in options):
-        # Printing the Businesses
-        print((_+1),list_of_hashes[_][RESULT])
-    if (RESULT in options):
-        # Searching the Product or Service Offered.
-        print(list_of_hashes[_]['Business Name']+":\n  -",list_of_hashes[_][RESULT])
-    if (int(search)-1 == limit_option[1]):
-        # Printing the Business Contact Information
-        print(list_of_hashes[_]['Business Name']+":\n  -",list_of_hashes[_]['Products or Services Offered'],list_of_hashes[_]['Business Contact (Owner)'],list_of_hashes[_]['Business Number'])
-    #if list_of_hashes[RESULT][search]
+def print_result(RESULT,list_of_hashes):
+    for _ in range(db_elements_num):
+        #fix if statements
+        if (RESULT in options):
+            # Printing the Businesses
+            print((_+1),list_of_hashes[_][RESULT])
+        if (RESULT in options):
+            # Searching the Product or Service Offered.
+            print(list_of_hashes[_]['Business Name']+":\n  -",list_of_hashes[_][RESULT])
+        if (int(search)-1 == limit_option[1]):
+            # Printing the Business Contact Information
+            print(list_of_hashes[_]['Business Name']+":\n  -",list_of_hashes[_]['Products or Services Offered'],list_of_hashes[_]['Business Contact (Owner)'],list_of_hashes[_]['Business Number'])
+        #if list_of_hashes[RESULT][search]
